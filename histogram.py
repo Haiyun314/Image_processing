@@ -20,9 +20,7 @@ def my_hist(image, nbins: int, relative_hist: bool):
         return num_bins
 
 def linear_transform(image, rectify_range: tuple, target_range:tuple):
-    mask_upper_bound = image <= rectify_range[1]
-    mask_lower_bound = image >= rectify_range[0]
-    mask = np.logical_and(mask_lower_bound, mask_upper_bound)
+    mask = np.logical_and(image <= rectify_range[1], image >= rectify_range[0])
     rectify = mask * rectify_range[0]
     return (image - rectify) / (rectify_range[1] - rectify_range[0]) * (target_range[1] - target_range[0]) + target_range[0]
 
