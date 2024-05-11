@@ -27,14 +27,12 @@ def A_np(dims: int, dx):
     A = np.identity(dims) * 2 + np.diag(-np.ones(dims - 1), k = 1) + np.diag(-np.ones(dims - 1), k = -1)
     A[0, 0] = 1
     A[dims - 1, dims - 1] = 1
-
     return A * 1/dx
-
 
 a = np.random.random((10, 10))
 b = np.ones((10, 10)) * 0.4
 print(np.linalg.norm(a-b)/100)
 
-print(np.median(a))
+print([i for i in range(10)][:2])
 # print(A(2000, 1))
 # print(A_np(2000, 1))

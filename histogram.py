@@ -45,9 +45,9 @@ def cumulative_distribution_function(relative_hist: dict):
 
 
 if __name__ == '__main__':
-    path = os.getcwd() + '/images/' + 'test.png'
+    path = os.getcwd() + '/images/' + 'cameraman.png'
     image = plt.imread(path)
-    image = np.array(image[:, :, 0] * 255, np.int32)
+    image = np.array(image[:, :] * 255, np.int32)
 
 
     histogram = my_hist(image, 255,0)
@@ -57,8 +57,12 @@ if __name__ == '__main__':
 
     _, ax = plt.subplots(2, 2)
     ax[0, 0].plot(histogram.keys(), histogram.values())
+    ax[0, 0].set_title('histogram')
     ax[0, 1].imshow(image, cmap= 'gray')
+    ax[0, 1].set_title('original')
+    ax[1, 0].imshow(linear, cmap= 'gray')
     ax[1, 0].set_title('linear_transform')
-    ax[1, 0].imshow(linear)
-    ax[1, 1].imshow(gamma)
+    ax[1, 1].imshow(gamma, cmap= 'gray')
+    ax[1, 1].set_title('gamma')
+
     plt.show()

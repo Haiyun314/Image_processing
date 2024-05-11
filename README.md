@@ -1,2 +1,5 @@
 # Image_processing
-Implementations of image processing algorithms
+
+Here, I will implement algorithms learned from the lecture "Mathematical Image Processing"
+
+## Note: some codes are purely "for loop" to provide an intuitive understanding of the algorithm
