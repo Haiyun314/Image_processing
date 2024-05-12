@@ -5,10 +5,10 @@ Here, I will implement algorithms learned from the lecture "Mathematical Image P
 ## Note: some codes are purely "for loop" to provide an intuitive understanding of the algorithm
 
 ### Histogram
-! [histogram] (./results/histogram.png)
+![histogram](./results/histogram.png)
 
 ### Filters
-! [filter] (./results/filter.png)
+![filter](./results/filters.png)
 
 ### Upscaling
-![upscaling] (./results/upscaling.png)
+![upscaling](./results/upscaling.png)
