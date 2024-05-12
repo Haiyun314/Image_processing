@@ -40,7 +40,7 @@ def histogram_equalization(image, gray_level, relative_hist):
             eq_image[i, j] = (gray_level) * np.sum(relative_hist[: image[i,j]])
     return eq_image
 
-def cumulative_distribution_function(image, relative_hist):
+def cumulative_distribution_function(relative_hist):
     cdf = dict()
     for i in range(len(relative_hist)):
         cdf[i] = np.sum(relative_hist[:i])
