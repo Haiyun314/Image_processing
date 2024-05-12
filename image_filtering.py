@@ -3,9 +3,11 @@ import os
 import matplotlib.pyplot as plt
 
 class Filters:
+    @staticmethod
     def m():
         return 1/25 * np.ones(shape= (5, 5))
     
+    @staticmethod
     def g():
         background = np.zeros(shape= (5, 5))
         for i in range(5):
@@ -13,7 +15,8 @@ class Filters:
                 background[i, j] = np.abs(3 - i) * np.abs(3 - j)
         return 1/81 * background
     
-    def gama():
+    @staticmethod
+    def gamma():
         backgraound = np.zeros(shape=(3, 3))
         backgraound[0, 1] = -1
         backgraound[1, 0] = -1
@@ -21,6 +24,7 @@ class Filters:
         backgraound[2, 1] = 1
         return backgraound
     
+    @staticmethod
     def delta():
         backgraound = np.zeros(shape=(3, 3))
         backgraound[0, 1] = 1
@@ -37,8 +41,8 @@ def image_filter(image, filters: str):
             filter = f.m()
         elif filters == 'g':
             filter = f.g()
-        elif filters == 'gama':
-            filter = f.gama()
+        elif filters == 'gamma':
+            filter = f.gamma()
         elif filters == 'delta':
             filter = f.delta()
     except NameError:
@@ -60,17 +64,21 @@ def median_filter(image, size):
 
 
 if __name__ == '__main__':
-    path = os.getcwd() + '/images/test.png'
+    path = os.getcwd() + '/images/cameraman.png'
     image = plt.imread(path)
-    image = image[:, :, 0]
+    image = image[:, :]
 
     f_image = image_filter(image, 'g')
+    f_image_g = image_filter(image, 'gamma')
     m_image = median_filter(image, (3, 3))
-
-    _, axes = plt.subplots(2, 2)
+    _, axes = plt.subplots(2, 2, figsize = (7, 7))
     axes[0, 0].imshow(image)
     axes[0, 0].set_title('original')
     axes[0, 1].imshow(f_image)
+    axes[0, 1].set_title('filter_g')
     axes[1, 0].imshow(m_image)
-
+    axes[1, 0].set_title('median_filter')
+    axes[1, 1].imshow(f_image_g)
+    axes[1, 1].set_title('filter_gamma')
+    plt.savefig('./results/filters')
     plt.show()

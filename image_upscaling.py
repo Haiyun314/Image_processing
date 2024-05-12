@@ -1,8 +1,6 @@
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-import scipy
-import scipy.fft
 
 class Filters:
     @staticmethod
@@ -15,7 +13,7 @@ class Filters:
     @staticmethod
     def bell(x):
         if np.abs(x) <= 1/2:
-            return -np.pow(x, 2) + 3/4
+            return -np.power(x, 2) + 3/4
         elif 1/2 < np.abs(x) < 3/2:
             return 1/2*np.square(np.abs(x) - 3/2)
         else:
@@ -24,14 +22,14 @@ class Filters:
     @staticmethod
     def mitchell_netravali(x):
         if np.abs(x) < 1:
-            return 7/6 * np.pow(x, 3) - 2 * np.square(x) + 8/9
+            return 7/6 * np.power(x, 3) - 2 * np.square(x) + 8/9
         elif 1 <= np.abs(x) < 2:
-            return -7/18 * np.pow(np.abs(x), 3) + 2 * np.square(x) - 10/3 * x + 16/9
+            return -7/18 * np.power(np.abs(x), 3) + 2 * np.square(x) - 10/3 * x + 16/9
         else :
             return 0
 
 
-def resize_copy(image, factor: int):
+def resize_copy(image: np.ndarray, factor: int):
     shape = image.shape
     target_shape = (shape[0]*factor, shape[1]*factor)
     assert 1 <= factor, 'the factor should be large or equal to one'
@@ -42,58 +40,67 @@ def resize_copy(image, factor: int):
     return template
 
 
-def i_zeropad(image, factor):
+def i_zeropad(image: np.ndarray, factor: int):
     fft_image = np.fft.fft2(image)
     target_shape = (image.shape[0] * factor, image.shape[1] * factor)
 
     padded_fft_image = np.zeros(target_shape, dtype=fft_image.dtype)
     padded_fft_image[:image.shape[0]//2, :image.shape[1]//2] = fft_image[:image.shape[0]//2, :image.shape[1]//2]
     
-    # Apply inverse FFT to obtain the upscaled image
     upscaled_image = np.fft.ifft2(padded_fft_image).real
-    
-    # Crop the upscaled image to the desired size
     upscaled_image = upscaled_image[:image.shape[0] * factor, :image.shape[1] * factor]
     
     return upscaled_image
 
 
-def resize_filter(image, factor: int, filter: str):
+def interpolation_function(image: np.ndarray, x:float, y:float, filter:str):
+    if filter == 'bell':
+        f = Filters.bell
+    elif filter == 'tent':
+        f = Filters.tent
+    elif filter == 'mitchell_netravali':
+        f = Filters.mitchell_netravali
+    x_, y_ = np.floor(x).astype(np.int32), np.floor(y).astype(np.int32)
+    frac_x, frac_y = x-x_, y-y_
+    try:
+        inter_p0 = image[x_, y_] * f(1- frac_x) + image[x_ + 1, y_] * f(frac_x)
+        inter_p1 = image[x_ , y_+1] * f(1 - frac_x) + image[x_ + 1, y_ + 1] * f(frac_x)
+    except IndexError:
+        inter_p0 = image[x_, y_] * f(1- frac_x) + image[x_, y_] * f(frac_x)
+        inter_p1 = image[x_ ,y_] * f(1 - frac_x) + image[x_, y_] * f(frac_x)
+    return inter_p0 * f(1 - frac_y) + inter_p1 * f(frac_y)
+
+
+def resize_filter(image:np.ndarray, factor: int, filter: str):
     """ unfinished """
-    f = Filters
     shape = image.shape
-    try: 
-        if filter == 'tent':
-            scaled_shape = shape + 2 * factor
-            new_image = np.zeros(scaled_shape)
-            scale_linespace = np.linspace(0, len())
-
-
-            new_image[0, 0] = image[0, 0]
-            new_image[0, -1] = image[0, -1]
-            new_image[-1, 0] = image[-1, 0]
-            new_image[-1, -1] = image[-1, -1]
-
-            rescal_rate = scaled_shape / shape
-            for i in range(len(image)):
-                for j in range(len(image[0])):
-                    new_image[i, j] = filter((i - (i-1)*rescal_rate) )*image[j, i-1] + filter((i * rescal_rate - i))* image[j, i]
-            return new_image
-        elif filter == 'bell':
-            pass
-        elif filter == 'mitchell_netravali':
-            pass
-    except NameError:
-        raise 'please input the correct filter name: tent, bell or mitchell_netravali'
-
+    target_shape = (shape[0]*factor, shape[1]*factor)
+    target_image = np.empty(target_shape)
+    scale = (shape[0]/target_shape[0], shape[1]/target_shape[1])
+    for i in range(target_shape[0]):
+        for j in range(target_shape[1]):
+            target_image[i, j] = interpolation_function(image, i * scale[0], j * scale[1], filter)
+    return target_image
 
 if __name__ == '__main__':
-    path = os.getcwd() + '/images/test.png'
+    path = os.getcwd() + '/images/cameraman.png'
     image = plt.imread(path)
-    image = image[:, :, 0]
-    resized_image = i_zeropad(image, 2)
-    plt.subplot(1, 2, 1)
+    resized_image = resize_filter(image, 2,'mitchell_netravali')
+    resized_pad = i_zeropad(image, 2)
+    resized_copy = resize_copy(image, 2)
+
+    plt.figure(figsize= (7, 7))
+    plt.subplot(2, 2, 2)
     plt.imshow(resized_image)
-    plt.subplot(1, 2, 2)
+    plt.title('resized_image')
+    plt.subplot(2, 2, 1)
+    plt.title('orginal')
     plt.imshow(image)
+    plt.subplot(2, 2, 3)
+    plt.imshow(resized_pad)
+    plt.title('resized_pad')
+    plt.subplot(2, 2, 4)
+    plt.title('resize_copy')
+    plt.imshow(resized_copy)
+    plt.savefig('results/upscaling.png')
     plt.show()
