@@ -30,7 +30,7 @@ additional_plot = new_f(x)
 
 
 # plot for funcs
-_, axes = plt.subplots(2, 4)
+_, axes = plt.subplots(2, 4, figsize= (10, 5))
 
 for i in range(2):
     for j in range(4):
@@ -49,5 +49,5 @@ for i in range(2):
         axes[i, j].set_xticks([i for i in range(6)])
         # axes[i, j].set_title(f'func{index}')
         axes[i, j].set_frame_on(False)
-
+plt.savefig('results/sim.png')
 plt.show()
