@@ -48,13 +48,13 @@ def cumulative_distribution_function(relative_hist):
 
 
 if __name__ == '__main__':
-    path = os.getcwd() + '/images/' + 'pout.png'
+    path = os.getcwd() + '/images/' + 'cameraman.png'
     image = plt.imread(path)
     image = np.array(image[:, :] * 255, np.int32)
 
 
     histogram, relative_hist = my_hist(image, 255)
-    cdf = cumulative_distribution_function(image, relative_hist)
+    cdf = cumulative_distribution_function(relative_hist)
     hist_eq = histogram_equalization(image, 1, relative_hist)
     linear = linear_transform(image, (50, 150), (0, 255))
     gamma = gamma_transform(image, 0.3)
