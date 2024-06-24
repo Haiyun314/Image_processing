@@ -16,8 +16,8 @@ class Diff:
     def grad(self, grad_image: np.ndarray = None) -> np.ndarray:
         image = grad_image if grad_image is not None else self.image
 
-        image_hori_shift = np.concatenate((image[..., 1:], image[..., :1]), axis=-1)
-        image_vert_shift = np.concatenate((image[1:, ...], image[:1, ...]), axis=0)
+        image_hori_shift = np.concatenate((image[..., :-1], image[..., -1:]), axis=-1)
+        image_vert_shift = np.concatenate((image[1:, ...], image[:-1, ...]), axis=0)
 
         grad_hori = image - image_hori_shift
         grad_vert = image - image_vert_shift
@@ -27,7 +27,7 @@ class Diff:
         try:
             result[0] == grad_hori
         except IndexError:
-            raise "index doesn't match"
+            raise IndexError("index doesn't match")
         
         return np.stack((grad_hori, grad_vert), axis=0)
     
@@ -54,6 +54,7 @@ def tykhonov_gradient(noise_image, lam, iterations):
             print(max_ite % iterations)
             print(f'processing {(max_ite - iterations)/max_ite*100 :.2f}%')
     return u_t
+
 
 def tykhonov_fourier_denoise(image, lam):
     shape = image.shape
@@ -91,3 +92,4 @@ if __name__ == '__main__':
     ax[1, 1].set_title('solution_four')
 
     plt.show()
+
