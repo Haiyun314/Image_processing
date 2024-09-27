@@ -11,6 +11,3 @@ Here, I will implement algorithms learned from the lecture "Mathematical Image P
 ### Upscaling
 ![upscaling](./results/upscaling.png)
 
-### Sim graph
-approximation of some functions
-![sim_graph](./results/sim.png)
