@@ -80,13 +80,13 @@ if __name__ == '__main__':
     solution_grad = tykhonov_gradient(noise_image, 0.01, 1000, diff_init)
     solution_four = tykhonov_fourier_denoise(noise_image,0.5)
 
-    _, ax = plt.subplots(2, 2, figsize = (8, 8))
-    ax[0, 0].imshow(noise_image, cmap= 'gray')
-    ax[0, 0].set_title('noise_image')
-    ax[1, 0].imshow(solution_grad, cmap= 'gray')
-    ax[1, 0].set_title('solution_grad')
-    ax[1, 1].imshow(solution_four, cmap= 'gray')
-    ax[1, 1].set_title('solution_four')
+    _, ax = plt.subplots(1, 3, figsize = (9, 3))
+    ax[0].imshow(noise_image, cmap= 'gray')
+    ax[0].set_title('noise_image')
+    ax[1].imshow(solution_grad, cmap= 'gray')
+    ax[1].set_title('tykhonov_gradient')
+    ax[2].imshow(solution_four, cmap= 'gray')
+    ax[2].set_title('tykhonov_fourier_denoise')
 
     plt.show()
 

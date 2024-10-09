@@ -1,7 +1,7 @@
 .DS_Store
 images/.DS_Store
-test.py
-simu_graph.py
+src/test.py
+src/simu_graph.py
 results/.DS_Store
 simu_graph.py
 mip/
