@@ -19,6 +19,7 @@ class TestDiff(unittest.TestCase):
                                         [0, 1, 1, 0],
                                         [0, 1, 1, 0],
                                         [0, 0, 0, 0]])
+
         expected_grad_vert = np.array([[0, 0, 0, 0],
                                         [0, 0.5, 0.5, 0],
                                         [0, 1, 1, 0],
