@@ -1,5 +1,6 @@
 import unittest
 import numpy as np
+from gradient import Diff
 
 class TestDiff(unittest.TestCase):
     def setUp(self):

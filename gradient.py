@@ -8,47 +8,36 @@ def test_imageinfo(image:np.ndarray) -> None:
 class Diff:
     '''
     boundary condition: periodic
-    discretize: backward differences
+    discretize: central differences for second derivatives (Laplace) and backward differences for gradient
     '''
-    def __init__(self, image: np.ndarray) -> None:
-        self.image = image
-
-    def grad(self, grad_image: np.ndarray = None) -> np.ndarray:
-        image = grad_image if grad_image is not None else self.image
-
-        image_hori_shift = np.concatenate((image[..., :-1], image[..., -1:]), axis=-1)
-        image_vert_shift = np.concatenate((image[1:, ...], image[:-1, ...]), axis=0)
+    def grad(self, image: np.ndarray) -> np.ndarray:
+        # Backward differences for gradient (periodic boundary)
+        image_hori_shift = np.concatenate((image[..., -1:], image[..., :-1]), axis=-1)
+        image_vert_shift = np.concatenate((image[1:, ...], image[:1, ...]), axis=0)
 
         grad_hori = image - image_hori_shift
         grad_vert = image - image_vert_shift
-
-        result = np.stack((grad_hori, grad_vert), axis=0)
-
-        try:
-            result[0] == grad_hori
-        except IndexError:
-            raise IndexError("index doesn't match")
-        
         return np.stack((grad_hori, grad_vert), axis=0)
     
-    def div(self) -> np.ndarray:
-        h_v_grad = self.grad()
-        return h_v_grad[0, ...] + h_v_grad[1, ...]
-    
-    def lapl(self) -> np.ndarray:
-        first_grad = self.grad()
-        twice_hori_grad = self.grad(first_grad[0, ...])[0, ...]
-        twice_vert_grad = self.grad(first_grad[1, ...])[1, ...]
-        return twice_hori_grad + twice_vert_grad
+    def lapl(self, image: np.ndarray) -> np.ndarray:
+        # Central differences for the Laplacian (2nd derivatives)
+        image_hori_fwd_shift = np.concatenate((image[..., 1:], image[..., :1]), axis=-1)
+        image_hori_bwd_shift = np.concatenate((image[..., -1:], image[..., :-1]), axis=-1)
+        
+        image_vert_fwd_shift = np.concatenate((image[1:, ...], image[:1, ...]), axis=0)
+        image_vert_bwd_shift = np.concatenate((image[-1:, ...], image[:-1, ...]), axis=0)
+        
+        lap_hori = image_hori_fwd_shift - 2 * image + image_hori_bwd_shift
+        lap_vert = image_vert_fwd_shift - 2 * image + image_vert_bwd_shift
+        return lap_hori + lap_vert
 
 
-def tykhonov_gradient(noise_image, lam, iterations):
+def tykhonov_gradient(noise_image, lam, iterations, diff_init):
     u_t = noise_image
     max_ite = iterations
     while iterations> 1:
-        diff = Diff(u_t)
         iterations -= 1
-        J_d = noise_image - u_t - lam * diff.lapl()
+        J_d = u_t - noise_image - lam * diff_init.lapl(u_t)
         u_t = u_t - 0.001 * J_d
         if max_ite % iterations == 0:
             print(max_ite % iterations)
@@ -78,9 +67,17 @@ def tykhonov_fourier_denoise(image, lam):
 
 if __name__ == '__main__':
     noise_image = plt.imread('images/cameraman_sp.png')
-    test_imageinfo(noise_image)
 
-    solution_grad = tykhonov_gradient(noise_image, 0.01, 1000)
+    diff_init = Diff()
+    grad_im = diff_init.grad(noise_image)
+    lap_im = diff_init.lapl(noise_image)
+
+
+    grad_norm = np.sum(grad_im[0] ** 2 + grad_im[1] ** 2)
+    laplace_product = -np.sum(noise_image * lap_im)
+
+
+    solution_grad = tykhonov_gradient(noise_image, 0.01, 1000, diff_init)
     solution_four = tykhonov_fourier_denoise(noise_image,0.5)
 
     _, ax = plt.subplots(2, 2, figsize = (8, 8))
