@@ -5,5 +5,5 @@ src/simu_graph.py
 results/.DS_Store
 simu_graph.py
 mip/
-src/__pycache__
-build/
+./src/__pycache__
+./build
