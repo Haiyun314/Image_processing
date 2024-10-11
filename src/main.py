@@ -31,5 +31,6 @@ if __name__ == '__main__':
     ax[1].set_title('tykhonov_gradient')
     ax[2].imshow(solution_four, cmap= 'gray')
     ax[2].set_title('tykhonov_fourier_denoise')
-
+    plt.savefig(os.path.join(root_directory, "results", "denoising.png"))
     plt.show()
+    
