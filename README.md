@@ -42,7 +42,8 @@ To run this project, you need the following dependencies:
     cmake --build . --target RunTests
 
 ### Usage
-To run the algorithms, execute the appropriate Python scripts in the src directory. For example:
+To run the algorithms, execute the appropriate Python scripts in the src directory. 
+For example:
     ```bash
     python src/main.py
 
