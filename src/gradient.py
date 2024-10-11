@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def test_imageinfo(image:np.ndarray) -> None:
     print(image.shape)
@@ -65,28 +64,5 @@ def tykhonov_fourier_denoise(image, lam):
     return denoised_image
 
 
-if __name__ == '__main__':
-    noise_image = plt.imread('images/cameraman_sp.png')
 
-    diff_init = Diff()
-    grad_im = diff_init.grad(noise_image)
-    lap_im = diff_init.lapl(noise_image)
-
-
-    grad_norm = np.sum(grad_im[0] ** 2 + grad_im[1] ** 2)
-    laplace_product = -np.sum(noise_image * lap_im)
-
-
-    solution_grad = tykhonov_gradient(noise_image, 0.01, 1000, diff_init)
-    solution_four = tykhonov_fourier_denoise(noise_image,0.5)
-
-    _, ax = plt.subplots(1, 3, figsize = (9, 3))
-    ax[0].imshow(noise_image, cmap= 'gray')
-    ax[0].set_title('noise_image')
-    ax[1].imshow(solution_grad, cmap= 'gray')
-    ax[1].set_title('tykhonov_gradient')
-    ax[2].imshow(solution_four, cmap= 'gray')
-    ax[2].set_title('tykhonov_fourier_denoise')
-
-    plt.show()
 

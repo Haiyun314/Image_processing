@@ -1,0 +1,4 @@
+/Users/haiyunning/Desktop/0 Py project/Image_processing/build/CMakeFiles/RunMain.dir
+/Users/haiyunning/Desktop/0 Py project/Image_processing/build/CMakeFiles/RunTests.dir
+/Users/haiyunning/Desktop/0 Py project/Image_processing/build/CMakeFiles/edit_cache.dir
+/Users/haiyunning/Desktop/0 Py project/Image_processing/build/CMakeFiles/rebuild_cache.dir

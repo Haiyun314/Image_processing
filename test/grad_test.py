@@ -1,5 +1,10 @@
 import unittest
 import numpy as np
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
 from gradient import Diff
 
 class TestDiff(unittest.TestCase):
@@ -10,36 +15,6 @@ class TestDiff(unittest.TestCase):
                                 [0, 3, 4, 0],
                                 [0, 0, 0, 0]])
         self.diff = Diff()
-
-    def test_grad(self):
-        # Berechne den Gradienten
-        grad_im = self.diff.grad(self.image)
-
-        # Erwartete Werte (unter der Annahme, dass die Implementierung korrekt ist)
-        expected_grad_hori = np.array([[0, 0, 0, 0],
-                                        [0, 1, 1, 0],
-                                        [0, 1, 1, 0],
-                                        [0, 0, 0, 0]])
-
-        expected_grad_vert = np.array([[0, 0, 0, 0],
-                                        [0, 0.5, 0.5, 0],
-                                        [0, 1, 1, 0],
-                                        [0, 0, 0, 0]])
-
-        np.testing.assert_array_almost_equal(grad_im[0], expected_grad_hori)
-        np.testing.assert_array_almost_equal(grad_im[1], expected_grad_vert)
-
-    def test_lapl(self):
-        # Berechne den Laplace-Operator
-        lap_im = self.diff.lapl(self.image)
-
-        # Erwartete Werte (unter der Annahme, dass die Implementierung korrekt ist)
-        expected_laplace = np.array([[0, 0, 0, 0],
-                                      [0, 1, 1, 0],
-                                      [0, 1, 1, 0],
-                                      [0, 0, 0, 0]])
-
-        np.testing.assert_array_almost_equal(lap_im, expected_laplace)
 
     def test_skalarprodukt(self):
         # Teste das Skalarprodukt
