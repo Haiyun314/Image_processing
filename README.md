@@ -45,7 +45,6 @@ To run this project, you need the following dependencies:
 To run the algorithms, execute the appropriate Python scripts in the src directory. For example:
 
     ```bash
-    Copy code
     python src/main.py
 
 ## Denoising Methods
