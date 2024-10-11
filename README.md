@@ -11,7 +11,7 @@ In this project, we explore various image processing techniques.
 
 To run this project, you need the following dependencies:
 
-- Python 3.x
+- Python 3.10
 - Required Python packages (listed in `requirements.txt`):
 
 
@@ -33,11 +33,11 @@ To run this project, you need the following dependencies:
     ```bash
     cmake ..
 
-4. Build the project::
+5. Build the project::
     ```bash
     cmake --build . --target RunMain
 
-4. Run Tests:
+6. Run Tests:
     ```bash
     cmake --build . --target RunTests
 
