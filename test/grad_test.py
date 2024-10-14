@@ -24,9 +24,7 @@ class TestDiff(unittest.TestCase):
         grad_norm = np.sum(grad_im[0] ** 2 + grad_im[1] ** 2)
         laplace_product = -np.sum(self.image * lap_im)
 
-        # Hier kannst du eine Erwartungshaltung definieren, z.B.:
-        # np.testing.assert_almost_equal(grad_norm, laplace_product)
-        # Aber zuerst musst du sicherstellen, dass du erwartete Werte berechnen kannst.
+        # Eine Erwartungshaltung definieren
         self.assertTrue(np.isclose(grad_norm, laplace_product),
                         "Das Skalarprodukt stimmt nicht mit dem Laplace-Produkt überein.")
 
