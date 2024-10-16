@@ -2,7 +2,7 @@ import os
 from gradient import *
 import numpy as np
 import matplotlib.pyplot as plt
-
+import show_image as si
 
 if __name__ == '__main__':
     # Get the root project directory
@@ -24,13 +24,8 @@ if __name__ == '__main__':
     solution_grad = tykhonov_gradient(noise_image, 0.01, 1000, diff_init)
     solution_four = tykhonov_fourier_denoise(noise_image,0.5)
 
-    _, ax = plt.subplots(1, 3, figsize = (9, 3))
-    ax[0].imshow(noise_image, cmap= 'gray')
-    ax[0].set_title('noise_image')
-    ax[1].imshow(solution_grad, cmap= 'gray')
-    ax[1].set_title('tykhonov_gradient')
-    ax[2].imshow(solution_four, cmap= 'gray')
-    ax[2].set_title('tykhonov_fourier_denoise')
-    plt.savefig(os.path.join(root_directory, "results", "denoising.png"))
-    plt.show()
+    images = np.stack((noise_image, solution_grad, solution_four), axis= 0)
+    names = ['noise_image', 'tykhonov_gradient', 'tykhonov_fourier_denoise']
+    si.show_images(images= images, number_of_images=3, names=names, name='denoising', save=1)
+
     

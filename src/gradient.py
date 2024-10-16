@@ -1,6 +1,6 @@
 import numpy as np
 
-def test_imageinfo(image:np.ndarray) -> None:
+def show_imageinfo(image:np.ndarray) -> None:
     print(image.shape)
     print(np.max(image), np.min(image))
 
@@ -9,14 +9,17 @@ class Diff:
     boundary condition: periodic
     discretize: central differences for second derivatives (Laplace) and backward differences for gradient
     '''
-    def grad(self, image: np.ndarray) -> np.ndarray:
+    def grad(self, image: np.ndarray, div = 0) -> np.ndarray:
         # Backward differences for gradient (periodic boundary)
         image_hori_shift = np.concatenate((image[..., -1:], image[..., :-1]), axis=-1)
         image_vert_shift = np.concatenate((image[1:, ...], image[:1, ...]), axis=0)
 
         grad_hori = image - image_hori_shift
         grad_vert = image - image_vert_shift
-        return np.stack((grad_hori, grad_vert), axis=0)
+        if div:
+            return grad_hori + grad_vert
+        else:
+            return np.stack((grad_hori, grad_vert), axis=0)
     
     def lapl(self, image: np.ndarray) -> np.ndarray:
         # Central differences for the Laplacian (2nd derivatives)
@@ -42,6 +45,7 @@ def tykhonov_gradient(noise_image, lam, iterations, diff_init):
             print(max_ite % iterations)
             print(f'processing {(max_ite - iterations)/max_ite*100 :.2f}%')
     return u_t
+
 
 
 def tykhonov_fourier_denoise(image, lam):
