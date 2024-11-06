@@ -6,7 +6,6 @@ This repository implements algorithms learned from the lecture "Mathematical Ima
 
 In this project, we explore various image processing techniques.
 
-
 ## Requirements
 
 To run this project, you need the following dependencies:

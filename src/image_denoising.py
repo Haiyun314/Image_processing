@@ -30,7 +30,7 @@ def prox_l2(u: np.ndarray, image: np.ndarray, tau):
 def ROF_primal_dual(image: np.ndarray, lmbd, num_iters=100, tau=0.02, sigma=0.25, theta=1.0):
     """Perform the primal-dual minimization algorithm for the ROF model."""
     # Initializations
-    diff = Diff
+    diff = Diff()
     m, n = image.shape
     u = np.zeros((m, n))
     grad_init = np.zeros((m, n, 2))
@@ -65,3 +65,4 @@ if __name__ == '__main__':
     # denoised_image = ROF_primal_dual(img, lmbd)
     names = ['orginal', 'solution']
     show_images(images, 2, names, name= 'solution')
+

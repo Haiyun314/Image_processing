@@ -7,3 +7,4 @@ simu_graph.py
 mip/
 src/__pycache__
 build/
+.vscode/
