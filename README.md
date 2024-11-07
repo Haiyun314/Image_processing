@@ -64,7 +64,7 @@ where:
 
 - \( I(x, y) \): Intensity of the image at the pixel location \( (x, y) \).
 - \( c_1 \) and \( c_2 \): Average intensities inside and outside the contour.
-- \( H(\phi) \): Heaviside function applied to the level set function \( \phi \).
+- \( H(\phi) \): characteristic function applied to the level set function \( \phi \).
 - \( \nu \): Regularization parameter controlling the smoothness of the contour.
 - \( \Omega \): The entire image domain.
 

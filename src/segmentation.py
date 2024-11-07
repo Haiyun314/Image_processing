@@ -15,7 +15,6 @@ def chan_vese(image, max_iter=500, lam = 0.2, dt = 0.1):
         c1 = inside.mean()
         c2 = outside.mean()
         lsf = lsf + dt * (- np.square(image - c1) + np.square(image - c2) + lam * diff.lapl(lsf))  # Chan-Vese Level Set Update
-        # phi = np.sign(lsf) * np.maximum(np.abs(lsf), 0.003)
         record.append(lsf)
     return record
 
