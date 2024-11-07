@@ -42,7 +42,6 @@ def show_images(images: np.ndarray, number_of_images: int, names: list, name: st
         plt.savefig(save_path)
         print(f"Image saved to {save_path}")
     else:
-        # Display the plot
         plt.show()
 
 def show_anim(image, contour, save: int = 0):

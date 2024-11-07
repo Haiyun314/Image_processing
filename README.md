@@ -50,8 +50,6 @@ For example:
 
 ### chan-vese segmentation
 
-# Chan-Vese Segmentation
-
 Chan-Vese segmentation is a technique for image segmentation that uses an energy minimization approach to detect and delineate object boundaries. It is particularly useful for images with weak edges or noisy backgrounds.
 
 ## Energy Function
@@ -69,7 +67,6 @@ where:
 - \( H(\phi) \): Heaviside function applied to the level set function \( \phi \).
 - \( \nu \): Regularization parameter controlling the smoothness of the contour.
 - \( \Omega \): The entire image domain.
-
 
 ![Segmentation](./results/animation.gif)
 
