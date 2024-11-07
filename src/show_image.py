@@ -14,7 +14,7 @@ def show_images(images: np.ndarray, number_of_images: int, names: list, name: st
         k = 0
         for i in range(2):
             for j in range(2):
-                ax[i, j].imshow(images[k])
+                ax[i, j].imshow(images[k], cmap= 'gray')
                 ax[i, j].set_title(names[k])
                 ax[i, j].axis('off')
                 k += 1
@@ -22,12 +22,12 @@ def show_images(images: np.ndarray, number_of_images: int, names: list, name: st
         # Create a 1-row grid of subplots for fewer images
         fig, ax = plt.subplots(1, number_of_images, figsize=(3 * number_of_images, 3))
         if number_of_images == 1:
-            ax.imshow(images)
+            ax.imshow(images, cmap= 'gray')
             ax.set_title(names[0])
             ax.axis('off')
         else:
             for i in range(number_of_images):
-                ax[i].imshow(images[i])
+                ax[i].imshow(images[i], cmap= 'gray')
                 ax[i].set_title(names[i])
                 ax[i].axis('off')
 
@@ -46,16 +46,18 @@ def show_images(images: np.ndarray, number_of_images: int, names: list, name: st
         plt.show()
 
 def show_anim(image, contour, save: int = 0):
-    fig, ax = plt.subplots()
-    fig.set_size_inches(4, 4)
+    fig, ax = plt.subplots(1, 2)
+    fig.set_size_inches(6, 3)
     # Show the first image as the background
-    ax.imshow(image, cmap= 'gray')
-
+    ax[0].imshow(image, cmap= 'gray')
+    ax[0].set_title('origin')
+    ax[1].imshow(image, cmap= 'gray')
+    ax[1].contour(contour[-1], levels = [0], colors= 'yellow')
     def update(frame):
-        ax.cla()
-        ax.imshow(image, cmap= 'gray')
-        ax.contour(contour[frame], levels = [0], colors= 'yellow')
-        ax.set_title('Chan-vese Segmentation')
+        ax[1].cla()
+        ax[1].imshow(image, cmap= 'gray')
+        ax[1].contour(contour[frame], levels = [0], colors= 'yellow')
+        ax[1].set_title('Chan-vese Segmentation')
         return ax
 
     ani = FuncAnimation(fig, update, frames=[i*10 for i in range(int(len(contour)/10))])
