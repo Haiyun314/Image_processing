@@ -48,8 +48,8 @@ For example:
 
 ## Denoising Methods
 
-### chan-vese segementation
-![Segementation](./results/animation.gif)
+### chan-vese segmentation
+![Segmentation](./results/animation.gif)
 
 ### Tikhonov Gradient and Tikhonov Fourier Denoise
 

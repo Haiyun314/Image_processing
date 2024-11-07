@@ -47,6 +47,7 @@ def show_images(images: np.ndarray, number_of_images: int, names: list, name: st
 
 def show_anim(image, contour, save: int = 0):
     fig, ax = plt.subplots()
+    fig.set_size_inches(4, 4)
     # Show the first image as the background
     ax.imshow(image, cmap= 'gray')
 
@@ -54,6 +55,7 @@ def show_anim(image, contour, save: int = 0):
         ax.cla()
         ax.imshow(image, cmap= 'gray')
         ax.contour(contour[frame], levels = [0], colors= 'yellow')
+        ax.set_title('Chan-vese Segmentation')
         return ax
 
     ani = FuncAnimation(fig, update, frames=[i*10 for i in range(int(len(contour)/10))])
