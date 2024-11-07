@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from matplotlib.animation import FuncAnimation
 
 def show_images(images: np.ndarray, number_of_images: int, names: list, name: str, save=0):
     if number_of_images > 1:
@@ -44,3 +45,21 @@ def show_images(images: np.ndarray, number_of_images: int, names: list, name: st
         # Display the plot
         plt.show()
 
+def show_anim(image, contour, save: int = 0):
+    fig, ax = plt.subplots()
+    # Show the first image as the background
+    ax.imshow(image, cmap= 'gray')
+
+    def update(frame):
+        ax.cla()
+        ax.imshow(image, cmap= 'gray')
+        ax.contour(contour[frame], levels = [0], colors= 'yellow')
+        return ax
+
+    ani = FuncAnimation(fig, update, frames=[i*10 for i in range(int(len(contour)/10))])
+    if save:
+        root_path = os.path.abspath(os.path.join(os.path.abspath(__file__), os.pardir, os.pardir))
+        image_path = os.path.join(root_path, 'results', 'animation.gif')
+        ani.save(image_path, writer='imagemagick')
+
+    plt.show()
