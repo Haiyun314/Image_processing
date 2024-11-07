@@ -28,4 +28,3 @@ if __name__ == '__main__':
     names = ['noise_image', 'tykhonov_gradient', 'tykhonov_fourier_denoise']
     si.show_images(images= images, number_of_images=3, names=names, name='denoising', save=1)
 
-    
