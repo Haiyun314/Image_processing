@@ -54,19 +54,19 @@ Chan-Vese segmentation is a technique for image segmentation that uses an energy
 
 ## Energy Function
 
-The Chan-Vese algorithm works by minimizing an energy function that separates an image into regions. The energy function \( E(c_1, c_2, \phi) \) is defined as follows:
+The Chan-Vese algorithm works by minimizing an energy function that separates an image into regions. The energy function $ E(c_1, c_2, \phi) $ is defined as follows:
 
-\[
+$$
 E(c_1, c_2, \phi) = \int_\Omega (I(x, y) - c_1)^2 H(\phi) \, dx \, dy + \int_\Omega (I(x, y) - c_2)^2 (1 - H(\phi)) \, dx \, dy + \nu \int_\Omega |\nabla H(\phi)| \, dx \, dy
-\]
+$$
 
 where:
 
-- \( I(x, y) \): Intensity of the image at the pixel location \( (x, y) \).
-- \( c_1 \) and \( c_2 \): Average intensities inside and outside the contour.
-- \( H(\phi) \): characteristic function applied to the level set function \( \phi \).
-- \( \nu \): Regularization parameter controlling the smoothness of the contour.
-- \( \Omega \): The entire image domain.
+- $ I(x, y) $: Intensity of the image at the pixel location $ (x, y) $.
+- $ c_1 $ and $ c_2 $: Average intensities inside and outside the contour.
+- $ H(\phi) $: characteristic function applied to the level set function $ \phi $.
+- $ \nu $: Regularization parameter controlling the smoothness of the contour.
+- $ \Omega $: The entire image domain.
 
 ![Segmentation](./results/animation.gif)
 
