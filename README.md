@@ -1,6 +1,6 @@
 # Image Processing
 
-This repository implements algorithms learned from the lecture "Mathematical Image Processing."
+This repository implements algorithms from "Mathematical Image Processing."
 
 ## Overview
 
