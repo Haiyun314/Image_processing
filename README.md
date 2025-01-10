@@ -1,4 +1,4 @@
-![Results](#denoising-methods)
+- [Results](#denoising-methods)
 
 # Image Processing
 
