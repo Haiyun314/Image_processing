@@ -1,3 +1,5 @@
+![Results](#denoising-methods)
+
 # Image Processing
 
 This repository implements algorithms from "Mathematical Image Processing."
